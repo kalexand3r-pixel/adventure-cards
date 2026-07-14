@@ -1,0 +1,1730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Creative Adventure Cards</title>
+<style>
+  /* ============================================================
+     CREATIVE ADVENTURE CARDS — STYLES
+     ============================================================ */
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  :root {
+    --c-music:   #8b5cf6;
+    --c-art:     #ec4899;
+    --c-build:   #f59e0b;
+    --c-read:    #14b8a6;
+    --c-learn:   #eab308;
+    --c-move:    #f97316;
+    --c-imagine: #6366f1;
+    --ink:       #2d2a4a;
+    --ink-soft:  #5c5880;
+    --paper:     #ffffff;
+    --bg1:       #fdf3ff;
+    --bg2:       #e8f4ff;
+    --accent:    #7c3aed;
+    --good:      #10b981;
+    --radius:    22px;
+    --shadow:    0 8px 24px rgba(60, 40, 120, 0.14);
+  }
+
+  html, body { height: 100%; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 55%, #fef9e7 100%);
+    background-attachment: fixed;
+    color: var(--ink);
+    font-size: 19px;
+    line-height: 1.45;
+    min-height: 100%;
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: manipulation;
+    overflow-x: hidden;
+  }
+
+  button {
+    font-family: inherit;
+    border: none;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  button:active { transform: scale(0.965); }
+
+  .hidden { display: none !important; }
+
+  /* ---------- Top bar ---------- */
+  #topbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  #topbar .app-title {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    color: var(--accent);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  #topbar .spacer { flex: 1; }
+  .pill {
+    background: var(--paper);
+    border-radius: 999px;
+    box-shadow: var(--shadow);
+    padding: 8px 16px;
+    font-weight: 800;
+    font-size: 19px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .iconbtn {
+    background: var(--paper);
+    border-radius: 999px;
+    box-shadow: var(--shadow);
+    width: 48px;
+    height: 48px;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+  }
+  #gearBtn { width: 40px; height: 40px; font-size: 17px; opacity: 0.65; }
+
+  main {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 6px 16px 48px;
+  }
+
+  /* ---------- Generic big buttons ---------- */
+  .bigbtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #8b5cf6, #6366f1);
+    color: #fff;
+    font-size: 22px;
+    font-weight: 800;
+    padding: 18px 34px;
+    border-radius: 999px;
+    box-shadow: 0 10px 24px rgba(99, 102, 241, 0.35);
+    min-height: 60px;
+  }
+  .bigbtn.green   { background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 10px 24px rgba(16,185,129,0.35); }
+  .bigbtn.orange  { background: linear-gradient(135deg, #f59e0b, #f97316); box-shadow: 0 10px 24px rgba(249,115,22,0.35); }
+  .bigbtn.pink    { background: linear-gradient(135deg, #ec4899, #d946ef); box-shadow: 0 10px 24px rgba(236,72,153,0.35); }
+  .bigbtn:disabled { opacity: 0.45; box-shadow: none; }
+
+  /* ---------- Setup screen ---------- */
+  .panel {
+    background: var(--paper);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .panel h2 {
+    font-size: 21px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  #setupScreen .intro {
+    text-align: center;
+    margin: 8px 0 22px;
+  }
+  #setupScreen .intro .big-emoji { font-size: 52px; }
+  #setupScreen .intro h1 { font-size: 30px; margin: 6px 0 4px; }
+  #setupScreen .intro p { color: var(--ink-soft); font-size: 18px; }
+
+  input[type="text"] {
+    font-family: inherit;
+    font-size: 21px;
+    padding: 14px 18px;
+    border: 3px solid #d9d4f7;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 420px;
+    color: var(--ink);
+    background: #faf9ff;
+    -webkit-user-select: text;
+    user-select: text;
+  }
+  input[type="text"]:focus { outline: none; border-color: var(--accent); }
+
+  .choice-row { display: flex; flex-wrap: wrap; gap: 12px; }
+  .choice {
+    background: #f2effe;
+    color: var(--ink);
+    border: 3px solid transparent;
+    border-radius: 16px;
+    padding: 14px 20px;
+    font-size: 19px;
+    font-weight: 700;
+    min-height: 56px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .choice.selected {
+    background: #ede9fe;
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .toggle-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+    gap: 12px;
+  }
+  .toggle {
+    background: #f4f3fb;
+    border: 3px solid transparent;
+    border-radius: 16px;
+    padding: 13px 14px;
+    font-size: 17px;
+    font-weight: 700;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 60px;
+    color: var(--ink-soft);
+  }
+  .toggle .tick {
+    width: 28px; height: 28px;
+    border-radius: 9px;
+    background: #ddd9f0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    color: transparent;
+    flex: 0 0 auto;
+  }
+  .toggle.on { background: #e7fbf2; border-color: var(--good); color: var(--ink); }
+  .toggle.on .tick { background: var(--good); color: #fff; }
+  .toggle.cat.on { background: #f3f0ff; border-color: var(--accent); }
+  .toggle.cat.on .tick { background: var(--accent); }
+
+  #setupWarning {
+    background: #fff3e6;
+    border: 2px solid #f9c47c;
+    color: #9a5b00;
+    border-radius: 14px;
+    padding: 12px 16px;
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .begin-wrap { text-align: center; padding: 8px 0 12px; }
+
+  /* ---------- Game screen ---------- */
+  #gameHeader {
+    text-align: center;
+    margin-bottom: 14px;
+  }
+  #gameHeader h1 { font-size: 26px; }
+  #progressStars {
+    font-size: 27px;
+    letter-spacing: 6px;
+    margin-top: 4px;
+  }
+  #gameHint { color: var(--ink-soft); font-size: 18px; margin-top: 4px; }
+
+  #cardsGrid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  @media (max-width: 720px) {
+    #cardsGrid { grid-template-columns: repeat(3, 1fr); }
+    #cardsGrid .card-wrap:nth-child(4) { grid-column: 1 / span 1; }
+  }
+  @media (max-width: 720px) and (orientation: portrait) {
+    #cardsGrid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .card-wrap {
+    perspective: 900px;
+    aspect-ratio: 3 / 4;
+  }
+  .card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.65s cubic-bezier(0.4, 1.4, 0.6, 1);
+    border-radius: 20px;
+  }
+  .card.flipped { transform: rotateY(180deg); }
+  .card-face {
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .card-back {
+    background: linear-gradient(150deg, #7c3aed 0%, #6366f1 60%, #3b82f6 100%);
+    color: #fff;
+  }
+  .card-back .qmark { font-size: clamp(38px, 7vw, 64px); font-weight: 900; text-shadow: 0 3px 0 rgba(0,0,0,0.15); }
+  .card-back .sparkle { font-size: clamp(16px, 3vw, 24px); opacity: 0.9; }
+  .card-back .num {
+    position: absolute; top: 8px; left: 12px;
+    font-size: 15px; font-weight: 800; opacity: 0.7;
+  }
+  .card-front {
+    transform: rotateY(180deg);
+    color: #fff;
+    padding: 8px;
+    text-align: center;
+  }
+  .card-front .cicon { font-size: clamp(30px, 6vw, 52px); }
+  .card-front .cname { font-size: clamp(12px, 2.4vw, 17px); font-weight: 800; }
+  .card-front .cstar { font-size: clamp(22px, 4vw, 34px); }
+  .card-wrap.tappable .card { cursor: pointer; }
+  .card-wrap.tappable .card-back { animation: cardpulse 2.2s ease-in-out infinite; }
+  @keyframes cardpulse {
+    0%, 100% { box-shadow: var(--shadow); }
+    50% { box-shadow: 0 8px 30px rgba(124, 58, 237, 0.45); }
+  }
+  .card-wrap.locked { opacity: 0.45; }
+  .card-wrap.done { opacity: 0.9; }
+
+  /* ---------- Activity panel ---------- */
+  #activityPanel {
+    border-top: 8px solid var(--accent);
+    text-align: center;
+  }
+  #activityPanel .cat-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    font-weight: 800;
+    font-size: 18px;
+    padding: 8px 20px;
+    border-radius: 999px;
+    margin-bottom: 12px;
+  }
+  #activityTitle { font-size: 28px; margin-bottom: 10px; }
+  #activityText {
+    font-size: 21px;
+    color: var(--ink-soft);
+    max-width: 640px;
+    margin: 0 auto 8px;
+  }
+  #activityMore {
+    font-size: 18px;
+    color: var(--accent);
+    background: #f3f0ff;
+    border-radius: 14px;
+    padding: 10px 16px;
+    max-width: 640px;
+    margin: 10px auto 0;
+    font-weight: 600;
+  }
+  #activityDuration {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    margin: 14px 0 18px;
+  }
+  #timerDisplay {
+    font-size: 62px;
+    font-weight: 900;
+    font-variant-numeric: tabular-nums;
+    color: var(--accent);
+    margin: 6px 0 4px;
+  }
+  #timerNote { font-size: 18px; color: var(--ink-soft); margin-bottom: 16px; font-weight: 600; }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: 8px; }
+
+  /* ---------- Bonus achievements ---------- */
+  #bonusPanel h3 { font-size: 23px; margin-bottom: 6px; }
+  #bonusPanel .sub { color: var(--ink-soft); font-size: 17px; margin-bottom: 16px; }
+  .bonus-row { display: flex; flex-direction: column; gap: 12px; max-width: 560px; margin: 0 auto 18px; }
+  .bonus-chip {
+    background: #f4f3fb;
+    border: 3px solid transparent;
+    border-radius: 18px;
+    padding: 15px 18px;
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+    min-height: 62px;
+  }
+  .bonus-chip .pts { margin-left: auto; font-weight: 900; color: var(--accent); white-space: nowrap; }
+  .bonus-chip.on { background: #e7fbf2; border-color: var(--good); color: var(--ink); }
+  .bonus-chip.on .pts { color: var(--good); }
+
+  /* ---------- Celebration overlay ---------- */
+  #celebrateOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(45, 42, 74, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    padding: 20px;
+  }
+  #celebrateCard {
+    background: var(--paper);
+    border-radius: 28px;
+    padding: 36px 30px;
+    max-width: 520px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.3);
+    animation: popIn 0.45s cubic-bezier(0.3, 1.6, 0.6, 1);
+  }
+  @keyframes popIn {
+    from { transform: scale(0.6); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+  }
+  #celebrateCard .big-emoji { font-size: 64px; }
+  #celebrateCard h2 { font-size: 28px; margin: 10px 0 6px; }
+  #celebrateCard .points-earned {
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--good);
+    margin-bottom: 8px;
+  }
+  #celebrateCard p { color: var(--ink-soft); font-size: 19px; margin-bottom: 22px; }
+
+  /* ---------- Wheel screen ---------- */
+  #wheelScreen { text-align: center; }
+  #wheelScreen h1 { font-size: 30px; margin-bottom: 4px; }
+  #wheelScreen .sub { color: var(--ink-soft); font-size: 19px; margin-bottom: 16px; }
+  #wheelBox { position: relative; display: inline-block; margin: 6px auto 10px; }
+  #wheelCanvas {
+    width: min(78vw, 420px);
+    height: min(78vw, 420px);
+    display: block;
+    filter: drop-shadow(0 12px 24px rgba(60,40,120,0.25));
+  }
+  #wheelPointer {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 40px;
+    z-index: 2;
+    filter: drop-shadow(0 3px 3px rgba(0,0,0,0.25));
+  }
+  #wheelLegend {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 8px;
+    max-width: 820px;
+    margin: 14px auto 20px;
+    text-align: left;
+  }
+  #wheelLegend .leg {
+    background: var(--paper);
+    border-radius: 12px;
+    padding: 8px 12px;
+    font-size: 16px;
+    font-weight: 700;
+    box-shadow: 0 3px 10px rgba(60,40,120,0.08);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  #wheelResult {
+    background: var(--paper);
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    padding: 26px;
+    max-width: 520px;
+    margin: 10px auto 20px;
+    animation: popIn 0.45s cubic-bezier(0.3, 1.6, 0.6, 1);
+  }
+  #wheelResult .big-emoji { font-size: 58px; }
+  #wheelResult h2 { font-size: 27px; margin: 8px 0 4px; }
+  #wheelResult p { color: var(--ink-soft); margin-bottom: 18px; }
+
+  /* ---------- Parent modal ---------- */
+  #parentOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(45, 42, 74, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 60;
+    padding: 20px;
+  }
+  #parentCard {
+    background: var(--paper);
+    border-radius: 24px;
+    padding: 28px;
+    max-width: 440px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.3);
+  }
+  #parentCard h2 { font-size: 23px; margin-bottom: 6px; }
+  #parentCard p { color: var(--ink-soft); font-size: 16px; margin-bottom: 18px; }
+  #parentCard .stack { display: flex; flex-direction: column; gap: 12px; }
+  .softbtn {
+    background: #f2effe;
+    color: var(--accent);
+    font-size: 18px;
+    font-weight: 800;
+    padding: 15px 20px;
+    border-radius: 16px;
+    min-height: 56px;
+  }
+  .softbtn.danger { background: #ffecec; color: #d13438; }
+  .softbtn.plain { background: #f4f3fb; color: var(--ink-soft); }
+
+  /* ---------- Confetti ---------- */
+  #confettiCanvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  @media (max-width: 520px) {
+    body { font-size: 17px; }
+    #topbar .app-title { font-size: 18px; }
+    #activityTitle { font-size: 24px; }
+    #timerDisplay { font-size: 50px; }
+    .bigbtn { font-size: 19px; padding: 15px 26px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ============ TOP BAR ============ -->
+  <div id="topbar">
+    <button id="gearBtn" class="iconbtn" title="Parent settings" aria-label="Parent settings">⚙️</button>
+    <div class="app-title">✨ Creative Adventure Cards</div>
+    <div class="spacer"></div>
+    <div class="pill" id="pointsPill">🏆 <span id="pointsValue">0</span></div>
+    <button id="muteBtn" class="iconbtn" title="Sound on or off" aria-label="Sound on or off">🔊</button>
+    <button id="fullscreenBtn" class="iconbtn" title="Fullscreen" aria-label="Fullscreen">⛶</button>
+  </div>
+
+  <main>
+
+    <!-- ============ SETUP SCREEN ============ -->
+    <section id="setupScreen">
+      <div class="intro">
+        <div class="big-emoji">🗺️</div>
+        <h1>Set Up the Adventure</h1>
+        <p>A grown-up sets this up, then the adventurer takes over!</p>
+      </div>
+
+      <div class="panel">
+        <h2>🙋 Adventurer's Name</h2>
+        <input type="text" id="childName" maxlength="24" autocomplete="off">
+      </div>
+
+      <div class="panel">
+        <h2>⏰ How much time do we have?</h2>
+        <div class="choice-row" id="timeChoices"></div>
+      </div>
+
+      <div class="panel">
+        <h2>🏠 Where can we play?</h2>
+        <div class="choice-row" id="envChoices"></div>
+      </div>
+
+      <div class="panel">
+        <h2>🧰 What do we have handy?</h2>
+        <div class="toggle-grid" id="materialToggles"></div>
+      </div>
+
+      <div class="panel">
+        <h2>🎯 Which kinds of adventures?</h2>
+        <div class="toggle-grid" id="categoryToggles"></div>
+      </div>
+
+      <div id="setupWarning" class="hidden"></div>
+
+      <div class="begin-wrap">
+        <button id="beginBtn" class="bigbtn green">🚀 Begin Adventure!</button>
+      </div>
+    </section>
+
+    <!-- ============ GAME SCREEN ============ -->
+    <section id="gameScreen" class="hidden">
+      <div id="gameHeader">
+        <h1 id="gameTitle"></h1>
+        <div id="progressStars"></div>
+        <div id="gameHint">Tap a mystery card to reveal your challenge!</div>
+      </div>
+
+      <div id="cardsGrid"></div>
+
+      <!-- Revealed activity -->
+      <div id="activityPanel" class="panel hidden">
+        <div class="cat-chip" id="activityCatChip"></div>
+        <h2 id="activityTitle"></h2>
+        <p id="activityText"></p>
+        <p id="activityMore" class="hidden"></p>
+        <div id="activityDuration"></div>
+
+        <div id="timerBlock" class="hidden">
+          <div id="timerDisplay">0:00</div>
+          <div id="timerNote">You've got this! Take your time and have fun.</div>
+        </div>
+
+        <div class="btn-row">
+          <button id="startActivityBtn" class="bigbtn green">▶️ Start Activity</button>
+          <button id="completeActivityBtn" class="bigbtn orange hidden">🏁 Complete Activity</button>
+        </div>
+      </div>
+
+      <!-- Bonus achievements after completing -->
+      <div id="bonusPanel" class="panel hidden">
+        <h3>🌟 Amazing! Any bonus stars today?</h3>
+        <p class="sub">Tap everything that happened — a grown-up can help decide.</p>
+        <div class="bonus-row" id="bonusChips"></div>
+        <div class="btn-row">
+          <button id="collectPointsBtn" class="bigbtn pink">💎 Collect My Points!</button>
+        </div>
+      </div>
+
+      <!-- Choose another / wheel unlock -->
+      <div id="nextPanel" class="panel hidden" style="text-align:center;">
+        <div class="btn-row">
+          <button id="chooseAnotherBtn" class="bigbtn">🃏 Choose Another Card</button>
+          <button id="goWheelBtn" class="bigbtn pink hidden">🎡 Spin the Bonus Wheel!</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ WHEEL SCREEN ============ -->
+    <section id="wheelScreen" class="hidden">
+      <h1>🎡 Bonus Round Wheel!</h1>
+      <p class="sub">You finished all five adventures — spin for your prize!</p>
+
+      <div id="wheelBox">
+        <div id="wheelPointer">🔻</div>
+        <canvas id="wheelCanvas" width="840" height="840"></canvas>
+      </div>
+
+      <div class="btn-row">
+        <button id="spinBtn" class="bigbtn pink">🎉 SPIN!</button>
+      </div>
+
+      <div id="wheelLegend"></div>
+
+      <div id="wheelResult" class="hidden">
+        <div class="big-emoji" id="wheelResultEmoji"></div>
+        <h2 id="wheelResultTitle"></h2>
+        <p>Enjoy your bonus prize — you earned it!</p>
+        <button id="newRoundBtn" class="bigbtn green">🔄 Start a New Adventure Round</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ CELEBRATION OVERLAY ============ -->
+  <div id="celebrateOverlay" class="hidden">
+    <div id="celebrateCard">
+      <div class="big-emoji" id="celebrateEmoji">🎉</div>
+      <h2 id="celebrateTitle"></h2>
+      <div class="points-earned" id="celebratePoints"></div>
+      <p id="celebrateMsg"></p>
+      <button id="celebrateOkBtn" class="bigbtn">Keep Going! ⭐</button>
+    </div>
+  </div>
+
+  <!-- ============ PARENT MODAL ============ -->
+  <div id="parentOverlay" class="hidden">
+    <div id="parentCard">
+      <h2>⚙️ Parent Corner</h2>
+      <p>Grown-ups only — quick controls for the adventure.</p>
+      <div class="stack">
+        <button id="editSetupBtn" class="softbtn">✏️ Edit Setup &amp; Start Fresh Round</button>
+        <button id="resetAllBtn" class="softbtn danger">🗑️ Reset All Points &amp; Progress</button>
+        <button id="closeParentBtn" class="softbtn plain">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <canvas id="confettiCanvas"></canvas>
+
+<script>
+"use strict";
+/* ==============================================================
+   ==============================================================
+     PARENT CONFIGURATION SECTION
+     --------------------------------------------------------------
+     Everything a parent might want to tweak lives right here:
+       1. POINTS ......... point values for completing & bonuses
+       2. TIME_PLANS ..... available time options & per-activity minutes
+       3. DEFAULTS ....... default name / time / environment / materials
+       4. MATERIALS ...... the material toggles shown on the setup screen
+       5. CATEGORIES ..... activity categories (icon, color, on/off)
+       6. CHALLENGES ..... the full challenge library (add your own!)
+       7. WHEEL_PRIZES ... bonus wheel choices
+     To add a challenge, copy one line in CHALLENGES and edit it.
+     Challenge fields:
+       title : short name shown on the card
+       text  : child-friendly instructions
+       more  : (optional) extra stretch idea, shown for 30-minute rounds
+       mats  : materials needed (must ALL be toggled on) — use keys
+               from MATERIALS below; use [] if nothing special needed
+       env   : "any" = works anywhere, "out" = needs outdoor space
+   ==============================================================
+   ============================================================== */
+
+const POINTS = {
+  complete:   10,  // finishing a challenge
+  bonusNew:    5,  // tried something new
+  bonusStick:  5,  // kept going when it was difficult
+  bonusPerson: 5,  // involved another person
+  allFive:    10   // finishing all five cards in a round
+};
+
+const TIME_PLANS = {
+  15: { label: "15 minutes", minutes: 3 },   // minutes per activity
+  20: { label: "20 minutes", minutes: 4 },
+  30: { label: "30 minutes", minutes: 5 }
+};
+
+const DEFAULTS = {
+  name: "My Adventurer",
+  time: 20,                 // one of the TIME_PLANS keys above
+  env:  "either",           // "indoor" | "outdoor" | "either"
+  materials: ["lego","paper","playdoh","piano","musicPlayer","books","basketball","ipad","cardboard","household","parent"]
+};
+
+const MATERIALS = {
+  lego:        { label: "LEGO / building blocks", icon: "🧱" },
+  paper:       { label: "Paper & drawing supplies", icon: "🖍️" },
+  playdoh:     { label: "Play-Doh / sculpting", icon: "🫙" },
+  piano:       { label: "Piano or keyboard", icon: "🎹" },
+  musicPlayer: { label: "Music playback device", icon: "🔊" },
+  books:       { label: "Books", icon: "📚" },
+  basketball:  { label: "Basketball & hoop", icon: "🏀" },
+  ipad:        { label: "iPad", icon: "📱" },
+  cardboard:   { label: "Cardboard & recycled bits", icon: "📦" },
+  household:   { label: "Basic household objects", icon: "🥄" },
+  parent:      { label: "Parent can join in", icon: "🤗" }
+};
+
+const CATEGORIES = {
+  music:   { name: "Music",                  icon: "🎵", color: "#8b5cf6" },
+  art:     { name: "Art",                    icon: "🎨", color: "#ec4899" },
+  build:   { name: "Building",               icon: "🧱", color: "#f59e0b" },
+  read:    { name: "Reading & Storytelling", icon: "📖", color: "#14b8a6" },
+  learn:   { name: "Learning",               icon: "💡", color: "#eab308" },
+  move:    { name: "Movement & Basketball",  icon: "🏀", color: "#f97316" },
+  imagine: { name: "Imagination",            icon: "✨", color: "#6366f1" }
+};
+
+const CHALLENGES = {
+  /* ------------------- MUSIC ------------------- */
+  music: [
+    { title: "Family Song",        text: "Make up a short song about your family. It can be silly, sweet, or both!", more: "Add a second verse about your pet or your favorite family memory.", mats: [], env: "any" },
+    { title: "Three-Note Magic",   text: "Play three piano notes you like, then turn them into a musical pattern that repeats.", more: "Try playing your pattern loud, then soft, then super slow.", mats: ["piano"], env: "any" },
+    { title: "Silly Voices Song",  text: "Sing a song you know in three totally different voices — maybe a giant, a mouse, and a robot!", mats: [], env: "any" },
+    { title: "Rhythm Maker",       text: "Create a cool rhythm using your hands, the table, or anything safe nearby. Repeat it until it feels like a beat!", more: "Teach your rhythm to someone else and play it together.", mats: [], env: "any" },
+    { title: "Superhero Theme",    text: "Every superhero needs theme music. Make up a theme song for a superhero you invent!", more: "Give your superhero a name and sing about their superpower.", mats: [], env: "any" },
+    { title: "Draw the Music",     text: "Listen to a song and draw whatever it makes you imagine — shapes, places, creatures, anything!", mats: ["musicPlayer","paper"], env: "any" },
+    { title: "Echo Song",          text: "Make up a call-and-response song with a grown-up. You sing a line, they sing it back!", mats: ["parent"], env: "any" },
+    { title: "Sounds-Only Song",   text: "Make a song using only sounds instead of words — beeps, boops, whooshes, and hums!", mats: [], env: "any" },
+    { title: "Feelings Music",     text: "Pick a feeling — happy, sleepy, excited, grumpy — and make music that sounds exactly like it.", more: "Make music for a second feeling and see if someone can guess both.", mats: [], env: "any" },
+    { title: "One-Song Concert",   text: "Put on a one-song concert! Announce yourself, perform your song, and take a big bow.", mats: [], env: "any" },
+    { title: "Piano Story",        text: "Make up piano music that tells a story — maybe a storm coming, or a tiny mouse sneaking past a sleeping cat.", more: "Tell the story out loud while you play the music for it.", mats: ["piano"], env: "any" },
+    { title: "Kitchen Band",       text: "Turn safe household objects into instruments — pots, spoons, containers — and play a short tune on them.", mats: ["household"], env: "any" },
+    { title: "Robot vs. Opera",    text: "Sing 'Twinkle Twinkle' (or any song) first like a robot, then like a fancy opera singer. Which was funnier?", mats: [], env: "any" }
+  ],
+
+  /* ------------------- ART ------------------- */
+  art: [
+    { title: "Dream Playground",   text: "Draw your dream playground. Slides to the moon? Trampoline floors? Anything goes!", more: "Add labels showing what each amazing part does.", mats: ["paper"], env: "any" },
+    { title: "Brand-New Animal",   text: "Invent a brand-new animal that nobody has ever seen, and draw it. What does it eat? Where does it live?", more: "Give it a name and draw its favorite food too.", mats: ["paper"], env: "any" },
+    { title: "Alien Creature",     text: "Sculpt a creature that lives on another planet. How many eyes? How does it move around?", mats: ["playdoh"], env: "any" },
+    { title: "Comic Strip",        text: "Create a comic strip with three scenes: a beginning, a middle, and a surprise ending!", mats: ["paper"], env: "any" },
+    { title: "Helper Machine",     text: "Draw an amazing machine that helps families — maybe it folds laundry, makes breakfast, or finds lost socks!", more: "Draw arrows showing how the machine works inside.", mats: ["paper"], env: "any" },
+    { title: "Music Sculpture",    text: "Play a song and sculpt whatever the music makes you feel. Fast music? Slow music? Let your hands decide!", mats: ["playdoh","musicPlayer"], env: "any" },
+    { title: "Restaurant Sign",    text: "Invent an imaginary restaurant — what does it serve? — and design its big colorful sign.", more: "Draw the menu with three silly dishes and their prices.", mats: ["paper"], env: "any" },
+    { title: "Strange Superhero",  text: "Draw a superhero with a really unusual power, like talking to sandwiches or super-speed tiptoeing.", mats: ["paper"], env: "any" },
+    { title: "Shape Picture",      text: "Create a whole picture using ONLY shapes — circles, triangles, squares, and rectangles.", mats: ["paper"], env: "any" },
+    { title: "Toy Designer",       text: "Design a brand-new toy that doesn't exist yet. Draw it and explain what it does!", more: "Design the box the toy would come in, too.", mats: ["paper"], env: "any" },
+    { title: "Food Come Alive",    text: "Sculpt your favorite food — but alive! Give it a face, arms, or even sneakers.", mats: ["playdoh"], env: "any" },
+    { title: "Moon House",         text: "Draw what your house would look like if it were on the moon. What would be different up there?", mats: ["paper"], env: "any" },
+    { title: "Cardboard Mask",     text: "Make a mask of a character you invent using cardboard. Then act like that character!", mats: ["cardboard"], env: "any" }
+  ],
+
+  /* ------------------- BUILDING ------------------- */
+  build: [
+    { title: "Lava Crosser",       text: "Build a vehicle that can safely cross a river of hot lava. What keeps it from melting?", more: "Build a rescue version that can carry three minifigures at once.", mats: ["lego"], env: "any" },
+    { title: "Creature Cottage",   text: "Build a house for an imaginary animal. Think about what that animal needs — a slide? A snack shelf?", mats: ["lego"], env: "any" },
+    { title: "Silly-Rule City",    text: "Create a little city with one unusual rule, like 'everyone travels by trampoline.' Build what that city looks like!", more: "Add a second silly rule and build something for it.", mats: ["lego"], env: "any" },
+    { title: "Sky-High Tower",     text: "Build the tallest structure you can that stands up all by itself. How high can you go?", mats: ["lego"], env: "any" },
+    { title: "Make It Move",       text: "Build something that moves — it can roll, spin, swing, or wobble. Test it out!", mats: ["lego"], env: "any" },
+    { title: "Clean-Up Invention", text: "Build an invention that helps clean a messy room. What does it pick up? Where does the mess go?", mats: ["lego"], env: "any" },
+    { title: "Concert Stage",      text: "Build a stage for a toy concert — with a spot for the band, lights, and a crowd of fans!", more: "Put on the concert! Pick which toys are in the band.", mats: ["lego"], env: "any" },
+    { title: "Surprise Spaceship", text: "Build a spaceship with one surprising secret feature. Don't tell anyone what it is until they ask!", mats: ["lego"], env: "any" },
+    { title: "One-Color Build",    text: "Build something awesome using pieces of only ONE color. Trickier than it sounds!", mats: ["lego"], env: "any" },
+    { title: "Impossible Playground", text: "Build a playground that no one has ever seen before — with rides nobody has invented yet.", more: "Give each ride a name and explain how it works.", mats: ["lego"], env: "any" },
+    { title: "Cardboard Castle",   text: "Build a castle, fort, or hideout using cardboard and recycled materials. Who lives inside?", mats: ["cardboard"], env: "any" },
+    { title: "Chair Bridge",       text: "Build a bridge between two chairs using safe household objects. Can a stuffed animal cross it?", mats: ["household"], env: "any" },
+    { title: "Cup & Box Tower",    text: "Using cups, boxes, or containers, build the tallest tower you can. Careful... steady hands!", mats: ["household"], env: "any" }
+  ],
+
+  /* ------------------- READING & STORYTELLING ------------------- */
+  read: [
+    { title: "New Ending",         text: "Read a book (or part of one) and then invent a totally new ending. What happens instead?", mats: ["books"], env: "any" },
+    { title: "The Next Day",       text: "Pick a character from a book and tell what happens to them the NEXT day, after the story ends.", mats: ["books"], env: "any" },
+    { title: "Voice Actor",        text: "Read a few pages out loud using a different voice for every character. Really perform it!", mats: ["books"], env: "any" },
+    { title: "Cover Detective",    text: "Look at a book cover you haven't read and invent the whole story before opening it. Then peek — were you close?", mats: ["books"], env: "any" },
+    { title: "Hero Story",         text: "Make up a story with a hero, a big problem, and a surprising solution nobody would expect.", more: "Tell it again, but this time the sidekick saves the day.", mats: [], env: "any" },
+    { title: "Three-Object Tale",  text: "Grab three random household objects and tell a story where all three are important.", mats: ["household"], env: "any" },
+    { title: "Scene Artist",       text: "Pick your favorite scene from a book and draw it exactly how you imagine it.", mats: ["books","paper"], env: "any" },
+    { title: "New Character",      text: "Invent a brand-new character who could join a book you love. What's their name? How do they help?", mats: ["books"], env: "any" },
+    { title: "Bedtime Story Maker", text: "Create a short, cozy bedtime story that would be perfect for a younger kid. Practice telling it gently.", mats: [], env: "any" },
+    { title: "Space Retelling",    text: "Retell a story you know — but now it happens in SPACE. Astronaut pigs? Moon castles? Go for it!", mats: ["books"], env: "any" },
+    { title: "You're In the Book", text: "Tell a story where YOU meet your favorite book character. Where do you go? What adventure happens?", more: "Add a problem only the two of you together could solve.", mats: [], env: "any" },
+    { title: "Talking Object",     text: "Pick any object in the room and tell a story as if it could talk. What has it seen? What does it wish for?", mats: [], env: "any" },
+    { title: "Character Interview", text: "Pretend to be a character from a book while a grown-up interviews you like you're famous!", mats: ["parent","books"], env: "any" }
+  ],
+
+  /* ------------------- LEARNING ------------------- */
+  learn: [
+    { title: "iPad Explorer",      text: "Complete one short learning activity or game on the iPad — then tell someone the coolest thing in it.", mats: ["ipad"], env: "any" },
+    { title: "Animal Expert",      text: "Pick an animal and learn five facts about it — from a book, the iPad, or a grown-up. Then draw it!", mats: ["paper"], env: "any" },
+    { title: "Shape Hunt",         text: "Find three objects around you that use different shapes. Why do you think each one is that shape?", mats: [], env: "any" },
+    { title: "Counting Game",      text: "Make up a quick counting game — count objects by 2s, race to add small numbers, or count backwards from 30!", mats: [], env: "any" },
+    { title: "Funny New Word",     text: "Learn one new word (ask a grown-up or look it up) and use it in the funniest sentence you can invent.", mats: [], env: "any" },
+    { title: "Video Explainer",    text: "Watch a short educational video and then explain one new thing you learned — like a teacher would!", mats: ["ipad"], env: "any" },
+    { title: "Sort Master",        text: "Gather some household objects and sort them by size, shape, or what they're used for. Can you sort them a second way?", mats: ["household"], env: "any" },
+    { title: "Pretend Store",      text: "Set up a pretend store, put prices on things, and practice counting out money for a customer.", more: "Give your customer change and check the math together.", mats: ["household"], env: "any" },
+    { title: "Pattern Detective",  text: "Look around the room and find patterns — stripes, tiles, repeats. Find at least three, then make your own pattern!", mats: [], env: "any" },
+    { title: "Famous Friend",      text: "Learn about a musician, artist, athlete, or inventor. What did they make or do? What would you ask them?", mats: [], env: "any" },
+    { title: "Body Ruler",         text: "Measure things using your feet or hands! How many hands long is the couch? Guess first, then check.", mats: [], env: "any" },
+    { title: "How Does It Work?",  text: "Pick something in your home — a zipper, a faucet, a light switch. Guess how it works inside, then ask or find out!", mats: [], env: "any" },
+    { title: "Teach It Back",      text: "Learn one small new thing — a fact, a move, a trick — then teach it to someone else like a pro teacher.", mats: [], env: "any" }
+  ],
+
+  /* ------------------- MOVEMENT & BASKETBALL ------------------- */
+  move: [
+    { title: "Two-Hand Dribbler",  text: "Practice dribbling with your right hand, then your left hand. Which is trickier? Keep practicing that one!", mats: ["basketball"], env: "any" },
+    { title: "Dribble Course",     text: "Create a basketball obstacle course — around a chair, through a doorway — and dribble your way through it.", more: "Time yourself and try to beat your own record.", mats: ["basketball"], env: "any" },
+    { title: "Three-Spot Shooter", text: "Make five shots from three different spots. Pick your spots — close, far, and one tricky one!", mats: ["basketball"], env: "out" },
+    { title: "Game Inventor",      text: "Invent a brand-new basketball game with your own rules. What's it called? How do you win?", mats: ["basketball"], env: "any" },
+    { title: "Rhythm Dribble",     text: "Put on a song and dribble to the beat of the music. Slow song, slow dribble. Fast song... good luck!", mats: ["basketball","musicPlayer"], env: "any" },
+    { title: "Pass Master",        text: "Practice passing with a grown-up — chest passes, bounce passes, and one silly trick pass you invent.", mats: ["basketball","parent"], env: "any" },
+    { title: "Victory Dance x3",   text: "Create three different victory celebrations for when you score. Make each one bigger than the last!", mats: [], env: "any" },
+    { title: "Highlight Copy",     text: "Watch a short basketball highlight and safely copy one cool movement — a spin, a pivot, or a celebration.", mats: ["ipad"], env: "any" },
+    { title: "Freeze Dance",       text: "Play a song and dance like crazy — but FREEZE like a statue whenever the music stops!", mats: ["musicPlayer"], env: "any" },
+    { title: "Animal Walks",       text: "Cross the room like five different animals — crab walk, bear crawl, bunny hop, frog jump, and one you invent!", mats: [], env: "any" },
+    { title: "Balance Champion",   text: "Try five balance poses — stand on one foot, tree pose, airplane arms. Hold each one while counting to ten!", mats: [], env: "any" },
+    { title: "Follow the Leader",  text: "Play follow-the-leader with a grown-up. Take turns being the leader with the silliest moves you can.", mats: ["parent"], env: "any" },
+    { title: "Stretching Story",   text: "Tell a story with your body! Stretch up like a growing tree, curl like a sleepy cat, reach like you're picking apples.", mats: [], env: "any" },
+    { title: "Movement Circuit",   text: "Make a movement circuit: 10 jumping jacks, 5 hops on each foot, a big stretch, and a super-fast wiggle. Do it twice!", mats: [], env: "any" }
+  ],
+
+  /* ------------------- IMAGINATION ------------------- */
+  imagine: [
+    { title: "TV Show Host",       text: "Pretend you're hosting your own TV show! What's it about? Welcome your audience and do the first episode.", more: "Interview a special guest (a person or a stuffed animal).", mats: [], env: "any" },
+    { title: "Restaurant Chef",    text: "Open a pretend restaurant and take a family member's order. What's today's special? Serve it with style!", mats: ["parent"], env: "any" },
+    { title: "Puppet Show",        text: "Put on a one-person puppet show using socks, stuffed animals, or anything you can find!", mats: ["household"], env: "any" },
+    { title: "New Holiday",        text: "Invent a brand-new holiday! What's it called? What do people eat, wear, and celebrate on that day?", more: "Make a decoration or plan the holiday's special song.", mats: [], env: "any" },
+    { title: "Spaceship Room",     text: "Pretend the room is a spaceship. You're the captain — where are you flying? What do the buttons do? Blast off!", mats: [], env: "any" },
+    { title: "Silly Commercial",   text: "Create a TV commercial for an imaginary product, like invisible shoes or a robot toothbrush. Sell it big!", mats: [], env: "any" },
+    { title: "Three-Character Scene", text: "Act out a little scene where you play THREE different characters. Change your voice and posture for each!", mats: [], env: "any" },
+    { title: "Sport Inventor",     text: "Invent a brand-new sport! Explain the rules, show how it's played, and demonstrate a championship move.", mats: [], env: "any" },
+    { title: "House Museum",       text: "Create a museum featuring interesting things from around the house. Give visitors a grand tour of every exhibit!", mats: ["household"], env: "any" },
+    { title: "Teacher Time",       text: "Pretend you're teaching a class about something you LOVE. Set up your classroom and teach the big lesson!", mats: [], env: "any" },
+    { title: "Secret Agent",       text: "You're a secret agent on a mission! Sneak through the room, crack the secret code, and complete your objective.", mats: [], env: "any" },
+    { title: "Time Traveler",      text: "Your time machine just landed — are you with dinosaurs or in the future? Act out what you see and who you meet.", mats: [], env: "any" },
+    { title: "Weather Reporter",   text: "Give the weather report for a made-up planet. Cotton-candy clouds? Spaghetti rain? Report it like a pro!", mats: [], env: "any" }
+  ]
+};
+
+const WHEEL_PRIZES = [
+  { label: "Free Drawing",             short: "Drawing",    emoji: "🖍️" },
+  { label: "Free iPad Time",           short: "iPad Time",  emoji: "📱" },
+  { label: "Choose a Show",            short: "Pick a Show",emoji: "📺" },
+  { label: "Dance Party",              short: "Dance!",     emoji: "🕺" },
+  { label: "Snack with a Parent",      short: "Snack Time", emoji: "🍎" },
+  { label: "Basketball Free Play",     short: "Basketball", emoji: "🏀" },
+  { label: "Build Anything",           short: "Build It",   emoji: "🧱" },
+  { label: "Music Choice",             short: "Music Pick", emoji: "🎵" },
+  { label: "Parent Joins the Activity",short: "Together",   emoji: "🤗" },
+  { label: "Ten-Minute Surprise Break",short: "Surprise!",  emoji: "🎁" }
+];
+
+/* Encouraging messages shown after completing a card */
+const CHEERS = [
+  "Your imagination is on fire today!",
+  "That was so creative — amazing work!",
+  "You tried, you played, you rocked it!",
+  "Wow! Another adventure conquered!",
+  "Creative brains like yours change the world!",
+  "You should be super proud of that one!",
+  "Fantastic effort, adventurer!",
+  "Every great artist started just like this!"
+];
+
+/* How many recently-played challenges to avoid repeating */
+const RECENT_MEMORY = 15;
+
+/* ==============================================================
+   END OF PARENT CONFIGURATION — app code below
+   ============================================================== */
+
+const STORAGE_KEY = "creativeAdventureCards.v1";
+
+/* ---------------- State ---------------- */
+let state = {
+  setup: {
+    name: DEFAULTS.name,
+    time: DEFAULTS.time,
+    env: DEFAULTS.env,
+    mats: {},          // { key: true/false }
+    cats: {}           // { key: true/false }
+  },
+  points: 0,
+  recent: [],          // recently used challenge ids, newest last
+  round: null,         // { cards: [{cid, cat, status}], active: idx|null }
+  muted: false
+};
+
+Object.keys(MATERIALS).forEach(k => state.setup.mats[k] = DEFAULTS.materials.includes(k));
+Object.keys(CATEGORIES).forEach(k => state.setup.cats[k] = true);
+
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+}
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const saved = JSON.parse(raw);
+    if (saved && typeof saved === "object") {
+      state.points = saved.points || 0;
+      state.recent = Array.isArray(saved.recent) ? saved.recent : [];
+      state.muted  = !!saved.muted;
+      if (saved.setup) {
+        state.setup.name = saved.setup.name || DEFAULTS.name;
+        state.setup.time = TIME_PLANS[saved.setup.time] ? saved.setup.time : DEFAULTS.time;
+        state.setup.env  = ["indoor","outdoor","either"].includes(saved.setup.env) ? saved.setup.env : DEFAULTS.env;
+        Object.keys(MATERIALS).forEach(k => {
+          if (saved.setup.mats && typeof saved.setup.mats[k] === "boolean") state.setup.mats[k] = saved.setup.mats[k];
+        });
+        Object.keys(CATEGORIES).forEach(k => {
+          if (saved.setup.cats && typeof saved.setup.cats[k] === "boolean") state.setup.cats[k] = saved.setup.cats[k];
+        });
+      }
+      if (saved.round && Array.isArray(saved.round.cards) && saved.round.cards.length === 5) {
+        const valid = saved.round.cards.every(c => c && CATEGORIES[c.cat] && getChallenge(c.cid));
+        if (valid) state.round = { cards: saved.round.cards, active: null };
+      }
+    }
+  } catch (e) {}
+}
+
+/* Challenge ids: "<cat>-<index>" */
+function getChallenge(cid) {
+  if (typeof cid !== "string") return null;
+  const dash = cid.lastIndexOf("-");
+  const cat = cid.slice(0, dash), idx = parseInt(cid.slice(dash + 1), 10);
+  if (!CHALLENGES[cat] || !CHALLENGES[cat][idx]) return null;
+  return Object.assign({ id: cid, cat: cat }, CHALLENGES[cat][idx]);
+}
+
+/* ---------------- DOM helpers ---------------- */
+const $ = id => document.getElementById(id);
+function show(el) { el.classList.remove("hidden"); }
+function hide(el) { el.classList.add("hidden"); }
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/* ==============================================================
+   SOUND EFFECTS (WebAudio — no files needed)
+   ============================================================== */
+let audioCtx = null;
+function getAudio() {
+  if (state.muted) return null;
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === "suspended") audioCtx.resume();
+    return audioCtx;
+  } catch (e) { return null; }
+}
+function tone(freq, start, dur, type, peak) {
+  const ctx = getAudio();
+  if (!ctx) return;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = type || "sine";
+  osc.frequency.value = freq;
+  const t = ctx.currentTime + (start || 0);
+  gain.gain.setValueAtTime(0.0001, t);
+  gain.gain.exponentialRampToValueAtTime(peak || 0.18, t + 0.015);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  osc.connect(gain).connect(ctx.destination);
+  osc.start(t);
+  osc.stop(t + dur + 0.05);
+}
+const sfx = {
+  tap()      { tone(520, 0, 0.09, "sine", 0.12); },
+  flip()     { tone(392, 0, 0.12, "triangle", 0.15); tone(523, 0.09, 0.14, "triangle", 0.15); tone(659, 0.18, 0.2, "triangle", 0.15); },
+  start()    { tone(440, 0, 0.12, "sine", 0.15); tone(660, 0.12, 0.18, "sine", 0.15); },
+  complete() { [523, 659, 784, 1047].forEach((f, i) => tone(f, i * 0.11, 0.22, "triangle", 0.16)); },
+  fanfare()  { [523, 659, 784, 1047, 784, 1047, 1319].forEach((f, i) => tone(f, i * 0.13, 0.28, "triangle", 0.17)); },
+  timeup()   { tone(660, 0, 0.25, "sine", 0.14); tone(880, 0.28, 0.4, "sine", 0.14); },
+  tick()     { tone(900, 0, 0.035, "square", 0.05); },
+  win()      { [392, 523, 659, 784, 1047, 1319, 1568].forEach((f, i) => tone(f, i * 0.12, 0.3, "triangle", 0.18)); }
+};
+
+/* ==============================================================
+   CHALLENGE FILTERING & ROUND GENERATION
+   ============================================================== */
+function challengeAllowed(ch) {
+  if (ch.env === "out" && state.setup.env === "indoor") return false;
+  return ch.mats.every(m => state.setup.mats[m]);
+}
+function availableChallenges(cat) {
+  const out = [];
+  CHALLENGES[cat].forEach((ch, i) => {
+    const full = Object.assign({ id: cat + "-" + i, cat: cat }, ch);
+    if (challengeAllowed(full)) out.push(full);
+  });
+  return out;
+}
+function availableCategories() {
+  return Object.keys(CATEGORIES).filter(c => state.setup.cats[c] && availableChallenges(c).length > 0);
+}
+
+/* Build a 5-card round: unique categories when possible; when fewer
+   than 5 categories are usable, categories repeat but never the
+   exact same challenge. Recently played challenges are avoided. */
+function generateRound() {
+  const cats = availableCategories();
+  if (cats.length === 0) return null;
+
+  // Category slots: unique first, then cycle if we need repeats
+  const slots = [];
+  let pool = shuffle(cats);
+  while (slots.length < 5) {
+    if (pool.length === 0) pool = shuffle(cats);
+    slots.push(pool.pop());
+  }
+
+  const used = new Set();
+  const cards = [];
+  for (const cat of slots) {
+    let options = availableChallenges(cat).filter(ch => !used.has(ch.id));
+    if (options.length === 0) {
+      // this category ran dry — borrow from any available category
+      for (const alt of shuffle(cats)) {
+        options = availableChallenges(alt).filter(ch => !used.has(ch.id));
+        if (options.length > 0) break;
+      }
+      if (options.length === 0) return null; // not enough total challenges
+    }
+    // prefer challenges not played recently
+    const fresh = options.filter(ch => !state.recent.includes(ch.id));
+    const pick = (fresh.length > 0 ? fresh : options)[Math.floor(Math.random() * (fresh.length > 0 ? fresh.length : options.length))];
+    used.add(pick.id);
+    cards.push({ cid: pick.id, cat: pick.cat, status: "down" });
+  }
+  return { cards: cards, active: null };
+}
+
+function totalAvailableChallenges() {
+  const seen = new Set();
+  availableCategories().forEach(c => availableChallenges(c).forEach(ch => seen.add(ch.id)));
+  return seen.size;
+}
+
+/* ==============================================================
+   SETUP SCREEN
+   ============================================================== */
+function renderSetup() {
+  $("childName").value = state.setup.name;
+
+  const tc = $("timeChoices");
+  tc.innerHTML = "";
+  Object.keys(TIME_PLANS).forEach(key => {
+    const b = document.createElement("button");
+    b.className = "choice" + (String(state.setup.time) === String(key) ? " selected" : "");
+    b.textContent = "⏱️ " + TIME_PLANS[key].label;
+    b.addEventListener("click", () => {
+      state.setup.time = Number(key);
+      sfx.tap(); renderSetup(); saveState();
+    });
+    tc.appendChild(b);
+  });
+
+  const envs = [
+    { key: "indoor",  label: "🏠 Indoors only" },
+    { key: "outdoor", label: "🌳 Outdoors available" },
+    { key: "either",  label: "🏠🌳 Either one" }
+  ];
+  const ec = $("envChoices");
+  ec.innerHTML = "";
+  envs.forEach(e => {
+    const b = document.createElement("button");
+    b.className = "choice" + (state.setup.env === e.key ? " selected" : "");
+    b.textContent = e.label;
+    b.addEventListener("click", () => {
+      state.setup.env = e.key;
+      sfx.tap(); renderSetup(); saveState();
+    });
+    ec.appendChild(b);
+  });
+
+  const mt = $("materialToggles");
+  mt.innerHTML = "";
+  Object.keys(MATERIALS).forEach(key => {
+    const m = MATERIALS[key];
+    const b = document.createElement("button");
+    b.className = "toggle" + (state.setup.mats[key] ? " on" : "");
+    b.innerHTML = '<span class="tick">✓</span><span>' + m.icon + " " + m.label + "</span>";
+    b.addEventListener("click", () => {
+      state.setup.mats[key] = !state.setup.mats[key];
+      sfx.tap(); renderSetup(); saveState();
+    });
+    mt.appendChild(b);
+  });
+
+  const ct = $("categoryToggles");
+  ct.innerHTML = "";
+  Object.keys(CATEGORIES).forEach(key => {
+    const c = CATEGORIES[key];
+    const b = document.createElement("button");
+    b.className = "toggle cat" + (state.setup.cats[key] ? " on" : "");
+    b.innerHTML = '<span class="tick">✓</span><span>' + c.icon + " " + c.name + "</span>";
+    b.addEventListener("click", () => {
+      state.setup.cats[key] = !state.setup.cats[key];
+      sfx.tap(); renderSetup(); saveState();
+    });
+    ct.appendChild(b);
+  });
+
+  // Live availability warning
+  const warn = $("setupWarning");
+  const cats = availableCategories();
+  const total = totalAvailableChallenges();
+  if (cats.length === 0) {
+    warn.textContent = "⚠️ No adventures fit these choices yet. Please turn on at least one category and a few materials.";
+    show(warn);
+    $("beginBtn").disabled = true;
+  } else if (total < 5) {
+    warn.textContent = "⚠️ Only " + total + " challenges fit these choices. Please add more materials or categories so we can fill five cards.";
+    show(warn);
+    $("beginBtn").disabled = true;
+  } else {
+    if (cats.length < 5) {
+      warn.textContent = "ℹ️ Fewer than five categories are available, so some categories will appear more than once (never the same challenge twice).";
+      show(warn);
+    } else {
+      hide(warn);
+    }
+    $("beginBtn").disabled = false;
+  }
+}
+
+$("childName").addEventListener("input", () => {
+  state.setup.name = $("childName").value.trim() || DEFAULTS.name;
+  saveState();
+});
+
+$("beginBtn").addEventListener("click", () => {
+  state.setup.name = $("childName").value.trim() || DEFAULTS.name;
+  const round = generateRound();
+  if (!round) { renderSetup(); return; }
+  state.round = round;
+  saveState();
+  sfx.start();
+  showGameScreen();
+});
+
+/* ==============================================================
+   GAME SCREEN — CARDS
+   ============================================================== */
+let activePhase = null; // null | "revealed" | "running" | "bonus" | "next"
+let earnedThisCard = 0;
+let bonusFlags = { new: false, stick: false, person: false };
+
+function showScreen(id) {
+  ["setupScreen", "gameScreen", "wheelScreen"].forEach(s => hide($(s)));
+  show($(id));
+  window.scrollTo(0, 0);
+}
+
+function showGameScreen() {
+  activePhase = null;
+  state.round.active = null;
+  hideActivityPanels();
+  $("gameTitle").textContent = "⭐ " + state.setup.name + "'s Adventure ⭐";
+  renderProgress();
+  renderCards();
+  $("gameHint").textContent = "Tap a mystery card to reveal your challenge!";
+  showScreen("gameScreen");
+}
+
+function renderProgress() {
+  const doneCount = state.round ? state.round.cards.filter(c => c.status === "done").length : 0;
+  let stars = "";
+  for (let i = 0; i < 5; i++) stars += i < doneCount ? "⭐" : "☆";
+  $("progressStars").textContent = stars;
+  $("pointsValue").textContent = state.points;
+}
+
+function renderCards() {
+  const grid = $("cardsGrid");
+  grid.innerHTML = "";
+  state.round.cards.forEach((card, i) => {
+    const cat = CATEGORIES[card.cat];
+    const wrap = document.createElement("div");
+    const isActive = state.round.active === i;
+    const revealed = isActive || card.status === "done";
+
+    let cls = "card-wrap";
+    if (card.status === "done") cls += " done";
+    else if (state.round.active !== null && !isActive) cls += " locked";
+    else if (state.round.active === null) cls += " tappable";
+    wrap.className = cls;
+
+    const inner = document.createElement("div");
+    inner.className = "card" + (revealed ? " flipped" : "");
+
+    const back = document.createElement("div");
+    back.className = "card-face card-back";
+    back.innerHTML = '<div class="num">' + (i + 1) + '</div><div class="sparkle">✦ ✦ ✦</div><div class="qmark">?</div><div class="sparkle">✦ ✦ ✦</div>';
+
+    const front = document.createElement("div");
+    front.className = "card-face card-front";
+    front.style.background = "linear-gradient(160deg, " + cat.color + ", " + cat.color + "cc)";
+    front.innerHTML =
+      '<div class="cicon">' + cat.icon + '</div>' +
+      '<div class="cname">' + cat.name + '</div>' +
+      (card.status === "done" ? '<div class="cstar">⭐</div>' : "");
+
+    inner.appendChild(back);
+    inner.appendChild(front);
+    wrap.appendChild(inner);
+
+    if (card.status === "down" && state.round.active === null) {
+      wrap.addEventListener("click", () => revealCard(i));
+    }
+    grid.appendChild(wrap);
+  });
+}
+
+function hideActivityPanels() {
+  hide($("activityPanel"));
+  hide($("bonusPanel"));
+  hide($("nextPanel"));
+  stopTimer();
+}
+
+function revealCard(i) {
+  if (state.round.active !== null) return;
+  const card = state.round.cards[i];
+  if (card.status !== "down") return;
+
+  state.round.active = i;
+  activePhase = "revealed";
+  sfx.flip();
+  renderCards();
+  saveState();
+
+  const ch = getChallenge(card.cid);
+  const cat = CATEGORIES[card.cat];
+  const minutes = TIME_PLANS[state.setup.time].minutes;
+
+  $("activityCatChip").style.background = cat.color;
+  $("activityCatChip").textContent = cat.icon + " " + cat.name;
+  $("activityTitle").textContent = ch.title;
+  $("activityText").textContent = ch.text;
+
+  const moreEl = $("activityMore");
+  if (ch.more && state.setup.time >= 30) {
+    moreEl.textContent = "💫 Extra idea: " + ch.more;
+    show(moreEl);
+  } else {
+    hide(moreEl);
+  }
+
+  $("activityDuration").textContent = "⏱️ Suggested time: about " + minutes + " minutes";
+  hide($("timerBlock"));
+  show($("startActivityBtn"));
+  hide($("completeActivityBtn"));
+  $("gameHint").textContent = "Here's your challenge!";
+
+  show($("activityPanel"));
+  setTimeout(() => $("activityPanel").scrollIntoView({ behavior: "smooth", block: "nearest" }), 400);
+}
+
+/* ---------------- Timer ---------------- */
+let timerInterval = null;
+let timerEndsAt = 0;
+
+function startActivity() {
+  if (activePhase !== "revealed") return;
+  activePhase = "running";
+  sfx.start();
+
+  const minutes = TIME_PLANS[state.setup.time].minutes;
+  timerEndsAt = Date.now() + minutes * 60 * 1000;
+
+  $("timerNote").textContent = "You've got this! Take your time and have fun.";
+  show($("timerBlock"));
+  hide($("startActivityBtn"));
+  show($("completeActivityBtn"));
+  updateTimerDisplay();
+  timerInterval = setInterval(updateTimerDisplay, 250);
+}
+
+function updateTimerDisplay() {
+  const remaining = Math.max(0, timerEndsAt - Date.now());
+  const totalSec = Math.ceil(remaining / 1000);
+  const m = Math.floor(totalSec / 60);
+  const s = totalSec % 60;
+  $("timerDisplay").textContent = m + ":" + String(s).padStart(2, "0");
+  if (remaining <= 0) {
+    stopTimer();
+    $("timerDisplay").textContent = "0:00";
+    $("timerNote").textContent = "⏰ Time's up! Great focus — you can keep going or tap Complete!";
+    sfx.timeup();
+  }
+}
+
+function stopTimer() {
+  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+}
+
+$("startActivityBtn").addEventListener("click", startActivity);
+
+/* ---------------- Complete → bonus selection ---------------- */
+function completeActivity() {
+  if (activePhase !== "running") return;
+  activePhase = "bonus";
+  stopTimer();
+  sfx.complete();
+  hide($("activityPanel"));
+  bonusFlags = { new: false, stick: false, person: false };
+  renderBonusChips();
+  show($("bonusPanel"));
+  $("bonusPanel").scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+function renderBonusChips() {
+  const defs = [
+    { key: "new",    icon: "🌟", label: "I tried something new",            pts: POINTS.bonusNew },
+    { key: "stick",  icon: "💪", label: "I kept going when it got tricky",  pts: POINTS.bonusStick },
+    { key: "person", icon: "🤝", label: "Someone joined my activity",       pts: POINTS.bonusPerson }
+  ];
+  const row = $("bonusChips");
+  row.innerHTML = "";
+  defs.forEach(d => {
+    const b = document.createElement("button");
+    b.className = "bonus-chip" + (bonusFlags[d.key] ? " on" : "");
+    b.innerHTML = "<span>" + d.icon + "</span><span>" + d.label + '</span><span class="pts">+' + d.pts + "</span>";
+    b.addEventListener("click", () => {
+      bonusFlags[d.key] = !bonusFlags[d.key];
+      sfx.tap();
+      renderBonusChips();
+    });
+    row.appendChild(b);
+  });
+}
+
+$("completeActivityBtn").addEventListener("click", completeActivity);
+
+/* ---------------- Collect points → celebration ---------------- */
+$("collectPointsBtn").addEventListener("click", () => {
+  if (activePhase !== "bonus") return;
+  const i = state.round.active;
+  const card = state.round.cards[i];
+
+  earnedThisCard = POINTS.complete
+    + (bonusFlags.new ? POINTS.bonusNew : 0)
+    + (bonusFlags.stick ? POINTS.bonusStick : 0)
+    + (bonusFlags.person ? POINTS.bonusPerson : 0);
+
+  card.status = "done";
+  state.round.active = null;
+  activePhase = "next";
+
+  // remember this challenge so it isn't repeated soon
+  state.recent.push(card.cid);
+  while (state.recent.length > RECENT_MEMORY) state.recent.shift();
+
+  const allDone = state.round.cards.every(c => c.status === "done");
+  if (allDone) earnedThisCard += POINTS.allFive;
+
+  state.points += earnedThisCard;
+  saveState();
+
+  hide($("bonusPanel"));
+  renderCards();
+  renderProgress();
+
+  // celebration
+  $("celebrateEmoji").textContent = allDone ? "🏆" : "🎉";
+  $("celebrateTitle").textContent = allDone ? "ALL FIVE CARDS DONE!" : "Challenge Complete!";
+  $("celebratePoints").textContent = "+" + earnedThisCard + " creativity points!" + (allDone ? " (includes +" + POINTS.allFive + " all-five bonus!)" : "");
+  $("celebrateMsg").textContent = allDone
+    ? "Incredible, " + state.setup.name + "! The Bonus Round Wheel is unlocked!"
+    : CHEERS[Math.floor(Math.random() * CHEERS.length)];
+  $("celebrateOkBtn").textContent = allDone ? "To the Bonus Wheel! 🎡" : "Keep Going! ⭐";
+
+  show($("celebrateOverlay"));
+  launchConfetti(allDone ? 220 : 120);
+  if (allDone) sfx.win(); else sfx.fanfare();
+});
+
+$("celebrateOkBtn").addEventListener("click", () => {
+  hide($("celebrateOverlay"));
+  const allDone = state.round.cards.every(c => c.status === "done");
+  if (allDone) {
+    showWheelScreen();
+  } else {
+    show($("nextPanel"));
+    hide($("goWheelBtn"));
+    show($("chooseAnotherBtn"));
+    $("gameHint").textContent = "Wonderful! Ready for the next one?";
+  }
+});
+
+$("chooseAnotherBtn").addEventListener("click", () => {
+  sfx.tap();
+  hide($("nextPanel"));
+  activePhase = null;
+  renderCards();
+  $("gameHint").textContent = "Tap a mystery card to reveal your challenge!";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+$("goWheelBtn").addEventListener("click", showWheelScreen);
+
+/* ==============================================================
+   BONUS WHEEL
+   ============================================================== */
+let wheelAngle = 0;      // current rotation in radians
+let wheelSpinning = false;
+
+function showWheelScreen() {
+  hideActivityPanels();
+  hide($("wheelResult"));
+  show($("spinBtn"));
+  $("spinBtn").disabled = false;
+  renderWheelLegend();
+  drawWheel(wheelAngle);
+  showScreen("wheelScreen");
+}
+
+function renderWheelLegend() {
+  const leg = $("wheelLegend");
+  leg.innerHTML = "";
+  WHEEL_PRIZES.forEach(p => {
+    const d = document.createElement("div");
+    d.className = "leg";
+    d.textContent = p.emoji + " " + p.label;
+    leg.appendChild(d);
+  });
+}
+
+const WHEEL_COLORS = ["#8b5cf6","#ec4899","#f59e0b","#14b8a6","#6366f1","#f97316","#10b981","#e11d48","#0ea5e9","#a855f7"];
+
+function drawWheel(angle) {
+  const canvas = $("wheelCanvas");
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width, H = canvas.height;
+  const cx = W / 2, cy = H / 2, r = W / 2 - 14;
+  const n = WHEEL_PRIZES.length;
+  const seg = (Math.PI * 2) / n;
+
+  ctx.clearRect(0, 0, W, H);
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.rotate(angle);
+
+  for (let i = 0; i < n; i++) {
+    const a0 = i * seg - Math.PI / 2 - seg / 2;
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.arc(0, 0, r, a0, a0 + seg);
+    ctx.closePath();
+    ctx.fillStyle = WHEEL_COLORS[i % WHEEL_COLORS.length];
+    ctx.fill();
+    ctx.strokeStyle = "#ffffff";
+    ctx.lineWidth = 6;
+    ctx.stroke();
+
+    // emoji + short label along the middle of the slice
+    ctx.save();
+    ctx.rotate(a0 + seg / 2);
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.font = "64px sans-serif";
+    ctx.fillText(WHEEL_PRIZES[i].emoji, r * 0.62, 0);
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "bold 30px -apple-system, sans-serif";
+    ctx.fillText(WHEEL_PRIZES[i].short, r * 0.62, 54);
+    ctx.restore();
+  }
+
+  // hub
+  ctx.beginPath();
+  ctx.arc(0, 0, 62, 0, Math.PI * 2);
+  ctx.fillStyle = "#ffffff";
+  ctx.fill();
+  ctx.font = "56px sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText("🎡", 0, 4);
+  ctx.restore();
+
+  // outer ring
+  ctx.beginPath();
+  ctx.arc(cx, cy, r + 4, 0, Math.PI * 2);
+  ctx.strokeStyle = "#ffffff";
+  ctx.lineWidth = 10;
+  ctx.stroke();
+}
+
+$("spinBtn").addEventListener("click", () => {
+  if (wheelSpinning) return;
+  wheelSpinning = true;
+  $("spinBtn").disabled = true;
+  hide($("wheelResult"));
+  sfx.start();
+
+  const n = WHEEL_PRIZES.length;
+  const seg = (Math.PI * 2) / n;
+  const winner = Math.floor(Math.random() * n);
+
+  // Rotate so the winning slice's center lands at the top pointer.
+  // Slice i's center starts at angle (i*seg - PI/2) when rotation = 0,
+  // and drawWheel offsets slices by -seg/2, so the center of slice i
+  // sits under the top pointer when rotation ≡ -i*seg (mod 2π).
+  const current = wheelAngle % (Math.PI * 2);
+  let target = -winner * seg;
+  while (target <= current) target += Math.PI * 2;
+  target += (Math.PI * 2) * (4 + Math.floor(Math.random() * 2)); // extra full spins
+
+  const startAngle = wheelAngle;
+  const delta = target - startAngle;
+  const duration = 4200;
+  const t0 = performance.now();
+  let lastSlice = -1;
+
+  function frame(now) {
+    const t = Math.min(1, (now - t0) / duration);
+    const eased = 1 - Math.pow(1 - t, 3); // ease-out cubic
+    wheelAngle = startAngle + delta * eased;
+    drawWheel(wheelAngle);
+
+    const sliceUnderPointer = Math.floor(((-wheelAngle / seg) % n + n) % n + 0.5) % n;
+    if (sliceUnderPointer !== lastSlice) { lastSlice = sliceUnderPointer; sfx.tick(); }
+
+    if (t < 1) {
+      requestAnimationFrame(frame);
+    } else {
+      wheelSpinning = false;
+      const prize = WHEEL_PRIZES[winner];
+      $("wheelResultEmoji").textContent = prize.emoji;
+      $("wheelResultTitle").textContent = prize.label + "!";
+      hide($("spinBtn"));
+      show($("wheelResult"));
+      launchConfetti(200);
+      sfx.win();
+      $("wheelResult").scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  }
+  requestAnimationFrame(frame);
+});
+
+$("newRoundBtn").addEventListener("click", () => {
+  const round = generateRound();
+  if (!round) {
+    // setup choices may have changed; fall back to setup screen
+    state.round = null;
+    saveState();
+    renderSetup();
+    showScreen("setupScreen");
+    return;
+  }
+  state.round = round;
+  saveState();
+  sfx.start();
+  showGameScreen();
+});
+
+/* ==============================================================
+   CELEBRATION CONFETTI
+   ============================================================== */
+const confettiCanvas = $("confettiCanvas");
+const confettiCtx = confettiCanvas.getContext("2d");
+let confettiParticles = [];
+let confettiRunning = false;
+
+function sizeConfetti() {
+  confettiCanvas.width = window.innerWidth;
+  confettiCanvas.height = window.innerHeight;
+}
+window.addEventListener("resize", sizeConfetti);
+sizeConfetti();
+
+function launchConfetti(count) {
+  const colors = ["#8b5cf6","#ec4899","#f59e0b","#14b8a6","#6366f1","#f97316","#10b981","#facc15"];
+  for (let i = 0; i < count; i++) {
+    confettiParticles.push({
+      x: Math.random() * confettiCanvas.width,
+      y: -20 - Math.random() * confettiCanvas.height * 0.4,
+      w: 7 + Math.random() * 8,
+      h: 10 + Math.random() * 8,
+      vx: (Math.random() - 0.5) * 2.4,
+      vy: 2.2 + Math.random() * 3.4,
+      rot: Math.random() * Math.PI * 2,
+      vrot: (Math.random() - 0.5) * 0.25,
+      color: colors[Math.floor(Math.random() * colors.length)]
+    });
+  }
+  if (!confettiRunning) { confettiRunning = true; requestAnimationFrame(confettiFrame); }
+}
+
+function confettiFrame() {
+  confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+  confettiParticles = confettiParticles.filter(p => p.y < confettiCanvas.height + 30);
+  confettiParticles.forEach(p => {
+    p.x += p.vx;
+    p.y += p.vy;
+    p.rot += p.vrot;
+    confettiCtx.save();
+    confettiCtx.translate(p.x, p.y);
+    confettiCtx.rotate(p.rot);
+    confettiCtx.fillStyle = p.color;
+    confettiCtx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+    confettiCtx.restore();
+  });
+  if (confettiParticles.length > 0) {
+    requestAnimationFrame(confettiFrame);
+  } else {
+    confettiRunning = false;
+  }
+}
+
+/* ==============================================================
+   TOP BAR: MUTE, FULLSCREEN, PARENT GEAR
+   ============================================================== */
+function renderMute() {
+  $("muteBtn").textContent = state.muted ? "🔇" : "🔊";
+}
+$("muteBtn").addEventListener("click", () => {
+  state.muted = !state.muted;
+  renderMute();
+  saveState();
+  if (!state.muted) sfx.tap();
+});
+
+if (document.documentElement.requestFullscreen) {
+  $("fullscreenBtn").addEventListener("click", () => {
+    if (document.fullscreenElement) document.exitFullscreen();
+    else document.documentElement.requestFullscreen().catch(() => {});
+  });
+} else {
+  hide($("fullscreenBtn"));
+}
+
+$("gearBtn").addEventListener("click", () => show($("parentOverlay")));
+$("closeParentBtn").addEventListener("click", () => {
+  hide($("parentOverlay"));
+  $("resetAllBtn").textContent = "🗑️ Reset All Points & Progress";
+  resetArmed = false;
+});
+$("editSetupBtn").addEventListener("click", () => {
+  hide($("parentOverlay"));
+  hideActivityPanels();
+  state.round = null;
+  activePhase = null;
+  saveState();
+  renderSetup();
+  showScreen("setupScreen");
+});
+
+let resetArmed = false;
+$("resetAllBtn").addEventListener("click", () => {
+  if (!resetArmed) {
+    resetArmed = true;
+    $("resetAllBtn").textContent = "⚠️ Tap again to confirm reset";
+    return;
+  }
+  resetArmed = false;
+  $("resetAllBtn").textContent = "🗑️ Reset All Points & Progress";
+  state.points = 0;
+  state.recent = [];
+  state.round = null;
+  activePhase = null;
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+  saveState();
+  hide($("parentOverlay"));
+  hideActivityPanels();
+  renderProgress();
+  renderSetup();
+  showScreen("setupScreen");
+});
+
+/* ==============================================================
+   BOOT
+   ============================================================== */
+loadState();
+renderMute();
+$("pointsValue").textContent = state.points;
+renderSetup();
+
+if (state.round && state.round.cards.some(c => c.status === "down")) {
+  // resume an unfinished round after a refresh
+  showGameScreen();
+} else if (state.round && state.round.cards.every(c => c.status === "done")) {
+  // refreshed with a finished round: wheel time
+  showWheelScreen();
+} else {
+  showScreen("setupScreen");
+}
+</script>
+</body>
+</html>
